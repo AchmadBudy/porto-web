@@ -1,0 +1,1 @@
+export {default as RepeaterOrigin} from './RepeaterOrigin.vue';
