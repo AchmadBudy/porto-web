@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class ListProjectResource extends JsonResource
 {
@@ -14,6 +15,13 @@ class ListProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'image' => url('storage/' . $this->image),
+            'slug' => $this->slug,
+            'description' => Str::limit($this->description, 200),
+            'categories' => ListCategoryResource::collection($this->whenLoaded('categories')),
+        ];
     }
 }
