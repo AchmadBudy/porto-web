@@ -18,7 +18,7 @@ type selectCategory = {
     label: string;
 }
 
-defineProps<{
+const { categories } = defineProps<{
     categories: selectCategory[]
 }>();
 

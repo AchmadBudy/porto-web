@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/table'
 import { PaginationDefault } from '@/components/ui/pagination';
 
-defineProps<{
+const { categories } = defineProps<{
     categories: {
         data: Category[],
         links: Array<{
