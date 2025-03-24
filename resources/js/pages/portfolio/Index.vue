@@ -6,15 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/vue3';
-import { Category, Project } from '@/types';
+import { Category, GeneralSettings, Project } from '@/types';
 
-const { projects, categories } = defineProps<{
+const { projects, categories, generalSettings } = defineProps<{
     projects: {
         data: Project[];
         links: object;
         meta: object;
     };
     categories: Category[];
+    generalSettings: GeneralSettings;
 }>();
 
 const selectedCategory = ref<number | null>(null);
@@ -33,48 +34,46 @@ const selectCategory = (categoryId: number | null) => {
     selectedCategory.value = categoryId;
 };
 
-// Developer information (static data)
-const developer = {
-    name: 'John Doe',
-    title: 'Full Stack Developer',
-    bio: 'Passionate full-stack developer with expertise in Laravel, Vue.js, and modern web technologies. I build elegant, efficient, and user-friendly applications.',
-    avatar: 'https://avatars.githubusercontent.com/u/12345678',
-    skills: ['Laravel', 'Vue.js', 'Tailwind CSS', 'TypeScript', 'MySQL', 'Git', 'Docker'],
-    socials: [
-        { name: 'GitHub', url: 'https://github.com', icon: 'github', imageUrl: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' },
-        { name: 'Twitter', url: 'https://twitter.com', icon: 'twitter', imageUrl: 'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg' },
-        { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'linkedin', imageUrl: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
-    ]
-};
+// // Developer information (static data)
+// const developer = {
+//     name: 'John Doe',
+//     title: 'Full Stack Developer',
+//     bio: 'Passionate full-stack developer with expertise in Laravel, Vue.js, and modern web technologies. I build elegant, efficient, and user-friendly applications.',
+//     avatar: 'https://avatars.githubusercontent.com/u/12345678',
+//     skills: ['Laravel', 'Vue.js', 'Tailwind CSS', 'TypeScript', 'MySQL', 'Git', 'Docker'],
+//     socials: [
+//         { name: 'GitHub', url: 'https://github.com', icon: 'github', imageUrl: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' },
+//         { name: 'Twitter', url: 'https://twitter.com', icon: 'twitter', imageUrl: 'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg' },
+//         { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'linkedin', imageUrl: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
+//     ]
+// };
 </script>
 
 <template>
-
-    <Head title="Portfolio" />
-
-    <PortfolioLayout title="Portfolio" :developerSettings="developer">
+    <PortfolioLayout title="Portfolio" :generalSettings="generalSettings">
         <!-- Hero Section -->
         <section class="py-12 md:py-20">
             <div class="grid items-center grid-cols-1 gap-12 md:grid-cols-2">
                 <div class="space-y-6">
                     <div class="inline-block px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary">
-                        {{ developer.title }}
+                        {{ generalSettings.title }}
                     </div>
                     <h1 class="text-4xl font-bold tracking-tight md:text-5xl">
-                        Hi, I'm {{ developer.name }} <span class="block">Welcome to my portfolio</span>
+                        Hi, I'm {{ generalSettings.name }} <span class="block">Welcome to my portfolio</span>
                     </h1>
                     <p class="text-lg text-gray-600 dark:text-gray-400">
-                        {{ developer.bio }}
+                        {{ generalSettings.bio }}
                     </p>
                     <div class="flex flex-wrap gap-2">
-                        <Badge v-for="skill in developer.skills" :key="skill" variant="outline" class="text-sm">
+                        <Badge v-for="skill in generalSettings.skills" :key="skill" variant="outline" class="text-sm">
                             {{ skill }}
                         </Badge>
                     </div>
                     <div class="flex space-x-4">
-                        <a v-for="social in developer.socials" :key="social.name" :href="social.url" target="_blank"
+                        <a v-for="social in generalSettings.socials" :key="social.name" :href="social.url"
+                            target="_blank"
                             class="text-gray-500 transition-colors hover:text-primary dark:text-gray-400 dark:hover:text-primary">
-                            <img :src="social.imageUrl" :alt="social.name" class="w-6 h-6" />
+                            <img :src="social.previewImageUrl ?? ''" :alt="social.name" class="w-6 h-6" />
                         </a>
                     </div>
                     <Button as-child>
@@ -101,22 +100,22 @@ const developer = {
                                 <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
                                 <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                             </div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">developer.profile</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">generalSettings.profile</div>
                         </div>
                         <div class="mt-4 font-mono text-sm">
                             <div class="flex mb-2">
                                 <span class="mr-2 text-primary">$</span>
                                 <span class="typing-animation">whoami</span>
                             </div>
-                            <div class="pl-6 mb-4 text-gray-700 dark:text-gray-300">{{ developer.name }}</div>
+                            <div class="pl-6 mb-4 text-gray-700 dark:text-gray-300">{{ generalSettings.name }}</div>
 
                             <div class="flex mb-2">
                                 <span class="mr-2 text-primary">$</span>
                                 <span>cat skills.txt</span>
                             </div>
                             <div class="pl-6 mb-4 text-gray-700 dark:text-gray-300">
-                                <span v-for="(skill, index) in developer.skills" :key="skill">
-                                    {{ skill }}{{ index < developer.skills.length - 1 ? ', ' : '' }} </span>
+                                <span v-for="(skill, index) in generalSettings.skills" :key="skill">
+                                    {{ skill }}{{ index < generalSettings.skills.length - 1 ? ', ' : '' }} </span>
                             </div>
 
                             <div class="flex mb-2">

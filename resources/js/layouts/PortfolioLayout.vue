@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { GeneralSettings } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 
 interface Props {
     title?: string;
-    developerSettings?: any
+    generalSettings: GeneralSettings
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,21 +25,22 @@ const toggleDarkMode = () => {
 };
 
 const pageTitle = computed(() => {
-    return props.title ? `${props.title} - Portfolio` : 'Portfolio';
+    return props.title ?? 'Portfolio';
 });
+
+// const page = usePage();
+// const siteName = computed(() => page.props.name as string);
+const siteName = usePage<{ name: string }>().props.name;
 </script>
 
 <template>
 
-    <Head :title="pageTitle">
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-    </Head>
+    <Head :title="pageTitle" />
     <div class="min-h-screen bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]">
         <header class="container px-4 py-6 mx-auto">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    <Link :href="route('home')" class="text-xl font-bold">DEV<span class="text-primary">FOLIO</span>
+                    <Link :href="route('home')" class="text-xl font-bold">{{ siteName }}
                     </Link>
                 </div>
                 <nav class="flex items-center space-x-6">
@@ -72,13 +74,13 @@ const pageTitle = computed(() => {
         <footer class="container px-4 py-8 mx-auto border-t border-gray-200 dark:border-gray-800">
             <div class="flex flex-col items-center justify-between md:flex-row">
                 <div class="text-sm text-gray-500 dark:text-gray-400">
-                    &copy; {{ new Date().getFullYear() }} DEV<span class="text-primary">FOLIO</span>. All rights
+                    &copy; {{ new Date().getFullYear() }} {{ siteName }}. All rights
                     reserved.
                 </div>
                 <div class="flex mt-4 space-x-4 md:mt-0">
-                    <a v-for="social in developerSettings.socials" :key="social.name" :href="social.url" target="_blank"
+                    <a v-for="social in generalSettings.socials" :key="social.name" :href="social.url" target="_blank"
                         class="text-gray-500 transition-colors hover:text-primary dark:text-gray-400 dark:hover:text-primary">
-                        <img :src="social.imageUrl" :alt="social.name" class="w-6 h-6" />
+                        <img :src="social.previewImageUrl ?? ''" :alt="social.name" class="w-6 h-6" />
                     </a>
                 </div>
             </div>

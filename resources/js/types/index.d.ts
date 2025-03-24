@@ -80,3 +80,18 @@ export type Project = {
     created_at: string;
     updated_at: string;
 }
+
+export type GeneralSettings = {
+    name: string;
+    title: string;
+    bio: string;
+    avatar?: File | string | null;
+    skills: string[];
+    socials: Array<{
+        name: string;
+        url: string;
+        previewImageUrl?: string | null;
+        imageUrl?: File | null;
+    }>;
+    _method?: string;
+}

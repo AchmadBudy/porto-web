@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/vue3';
 import { Separator } from '@/components/ui/separator';
+import { GeneralSettings } from '@/types';
 
 const props = defineProps<{
     project: any;
     relatedProjects: any;
+    generalSettings: GeneralSettings;
 }>();
 
 // Format attributes for display
@@ -46,11 +48,11 @@ const developer = {
 
     <Head :title="project.name" />
 
-    <PortfolioLayout :title="project.name" :developerSettings="developer">
+    <PortfolioLayout :title="project.name" :generalSettings="generalSettings">
         <!-- Breadcrumb -->
         <div class="mb-8">
             <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Link :href="route('portfolio')" class="transition-colors hover:text-primary">Projects</Link>
+                <Link :href="route('home')" class="transition-colors hover:text-primary">Projects</Link>
                 <span>/</span>
                 <span class="text-gray-900 dark:text-gray-100">{{ project.name }}</span>
             </div>
@@ -124,7 +126,7 @@ const developer = {
 
                 <!-- Back to Projects -->
                 <Button as-child variant="outline" class="w-full">
-                    <Link :href="route('portfolio')" class="w-full">
+                    <Link :href="route('home')" class="w-full">
                     <span class="flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">

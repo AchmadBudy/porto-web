@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/vue3';
-import { Category, Project } from '@/types';
+import { Category, GeneralSettings, Project } from '@/types';
+import { PaginationDefault } from '@/components/ui/pagination';
 
 const props = defineProps<{
-    projects: Project[];
+    projects: {
+        data: Project[];
+        meta: any;
+        links: any;
+    };
     categories: Category[];
+    generalSettings: GeneralSettings;
 }>();
 
 const selectedCategory = ref<number | null>(null);
@@ -48,7 +54,7 @@ const developer = {
 
     <Head title="All Projects" />
 
-    <PortfolioLayout title="All Projects" :developerSettings="developer">
+    <PortfolioLayout title="All Projects" :generalSettings="generalSettings">
         <!-- Breadcrumb -->
         <div class="mb-8">
             <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
@@ -124,7 +130,7 @@ const developer = {
             </div>
 
             <!-- Pagination -->
-            <div v-if="props.projects.meta && props.projects.meta.links && props.projects.meta.links.length > 3"
+            <!-- <div v-if="props.projects.meta && props.projects.meta.links && props.projects.meta.links.length > 3"
                 class="flex justify-center mt-12">
                 <div class="flex space-x-1">
                     <template v-for="(link, i) in props.projects.meta.links" :key="i">
@@ -134,13 +140,18 @@ const developer = {
                         </div>
                         <Link v-else :href="link.url" :class="{
                             'px-4 py-2 text-sm border rounded-md': true,
-                            'bg-primary text-white border-primary': link.active,
+                            'bg-primary text-black border-primary': link.active,
                             'text-gray-700 border-gray-200 hover:bg-gray-50 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800': !link.active
                         }">
                         <span v-html="link.label"></span>
                         </Link>
                     </template>
-                </div>
+</div>
+</div> -->
+            <!-- Add pagination component at the bottom -->
+            <div class="flex justify-center mt-4">
+                <PaginationDefault :links="projects.links" :meta="projects.meta"
+                    @page-changed="(page) => router.visit(route('portfolio.all', { page }))" />
             </div>
         </section>
     </PortfolioLayout>

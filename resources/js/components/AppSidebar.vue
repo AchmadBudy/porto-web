@@ -23,19 +23,25 @@ const mainNavItems: NavItem[] = [
         title: 'Project',
         href: '/admin/projects',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Settings Web Setup',
+        href: '/admin/settings/web-setup',
+        icon: LayoutGrid,
     }
 ];
 
 const footerNavItems: NavItem[] = [
+
+    {
+        title: 'Front Page',
+        href: '/',
+        icon: BookOpen,
+    },
     {
         title: 'Github Repo',
         href: 'https://github.com/laravel/vue-starter-kit',
         icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
     },
 ];
 </script>
