@@ -17,7 +17,7 @@ class ListGalleryResource extends JsonResource
         return [
             'id' => $this->id,
             'project_id' => $this->project_id,
-            'image' => url('storage/' . $this->image),
+            'image' => url('storage/'.$this->image),
         ];
     }
 }

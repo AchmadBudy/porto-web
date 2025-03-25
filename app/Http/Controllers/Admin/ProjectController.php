@@ -10,8 +10,8 @@ use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Response;
 use Illuminate\Support\Str;
+use Inertia\Response;
 
 class ProjectController extends Controller
 {
@@ -80,7 +80,6 @@ class ProjectController extends Controller
             }
         }
 
-
         return to_route('admin.projects.index')->with('success', 'Project created successfully');
     }
 
@@ -124,7 +123,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $validate = $request->validate([
-            'name' => ['required', 'string', 'unique:projects,name,' . $project->id],
+            'name' => ['required', 'string', 'unique:projects,name,'.$project->id],
             'description' => ['required', 'string'],
             'image' => ['nullable', 'image'],
             'attributes' => ['nullable', 'array'],
@@ -139,7 +138,6 @@ class ProjectController extends Controller
             Storage::disk('public')->delete($project->image);
             $validate['image'] = Storage::disk('public')->put('projects', $validate['image']);
         }
-
 
         $project->update([
             'name' => $validate['name'],
@@ -156,7 +154,7 @@ class ProjectController extends Controller
             $oldgalleriesCollection = collect($validate['old_galleries']);
             $oldgalleries = $project->galleries;
             $oldgalleriesNeedToDelete = $oldgalleries->filter(function ($gallery) use ($oldgalleriesCollection) {
-                return !$oldgalleriesCollection->contains(key: 'id', value: $gallery->id);
+                return ! $oldgalleriesCollection->contains(key: 'id', value: $gallery->id);
             });
             foreach ($oldgalleriesNeedToDelete as $gallery) {
                 Storage::disk('public')->delete($gallery->image);

@@ -19,7 +19,7 @@ class ShowProjectResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'image' => url('storage/' . $this->image),
+            'image' => url('storage/'.$this->image),
             'attributes' => $this->attributes ?? [],
             'categories' => ListCategoryResource::collection($this->whenLoaded('categories')),
             'galleries' => ListGalleryResource::collection($this->whenLoaded('galleries')),

@@ -17,7 +17,7 @@ class GeneralSettingsSocialsResource extends JsonResource
         return [
             'name' => $this['name'],
             'url' => $this['url'],
-            'previewImageUrl' => url('storage/' . $this['imageUrl']),
+            'previewImageUrl' => url('storage/'.$this['imageUrl']),
         ];
     }
 }

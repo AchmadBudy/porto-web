@@ -17,6 +17,7 @@ class GeneralSettings extends Settings
     public array $skills;
 
     public array $socials;
+
     public static function group(): string
     {
         return 'general';

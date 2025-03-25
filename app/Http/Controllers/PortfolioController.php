@@ -9,7 +9,6 @@ use App\Http\Resources\ShowProjectResource;
 use App\Models\Category;
 use App\Models\Project;
 use App\Settings\GeneralSettings;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PortfolioController extends Controller

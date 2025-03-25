@@ -68,8 +68,6 @@ class SetupWebController extends Controller
         $settings->fill($validate);
         $settings->save();
 
-
-
         return to_route('admin.settings.web-setup')->with('success', 'Global Setting Has been Updated');
     }
 }

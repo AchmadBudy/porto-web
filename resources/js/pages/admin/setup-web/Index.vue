@@ -23,8 +23,6 @@ const form = useForm<GeneralSettings>({
     _method: 'PUT',
 });
 
-console.log(form)
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Edit Global Settings',
