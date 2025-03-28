@@ -8,10 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { MultiSelectAi } from '@/components/ui/multi-select';
-import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
-import { PlusCircleIcon, XCircleIcon } from 'lucide-vue-next';
 import { RepeaterOrigin } from '@/components/ui/repeater';
+import InputImageFile from '@/components/custom/InputImageFile.vue';
+import InputImageMultiFile from '@/components/custom/InputImageMultiFile.vue';
 
 type selectCategory = {
     value: number;
@@ -22,9 +22,6 @@ const { categories, currentProject } = defineProps<{
     categories: selectCategory[],
     currentProject: Project;
 }>();
-
-const imagePreview = ref<string | null>(currentProject.image);
-const imageInput = ref<string>('');
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -53,60 +50,7 @@ const submit = () => {
     });
 };
 
-const previewImage = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    const file = target.files?.[0];
 
-    if (file) {
-        form.image = file;
-        imagePreview.value = URL.createObjectURL(file);
-    }
-};
-
-const clearImage = () => {
-    imagePreview.value = null;
-    form.image = null;
-    if (imageInput.value) {
-        // Create a new form to reset file input
-        imageInput.value = '';
-    }
-};
-
-
-// Add these with your other ref declarations
-const galleryPreviews = ref<string[]>([]);
-const galleryInput = ref<string>('');
-
-// Add these methods after your existing methods
-const previewGallery = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    const files = target.files;
-
-    if (files && files.length > 0) {
-        // Clear previous previews if needed
-        galleryPreviews.value = [];
-
-        // Add form.galleries to your ProjectForm type and initialize it in useForm
-        form.galleries = [];
-
-        // Create preview for each selected image
-        Array.from(files).forEach(file => {
-            galleryPreviews.value.push(URL.createObjectURL(file));
-            // Add to form data (ensure form.galleries is initialized as an array)
-            form.galleries.push(file);
-        });
-    }
-};
-
-
-
-const clearGallery = () => {
-    galleryPreviews.value = [];
-    form.galleries = [];
-    if (galleryInput.value) {
-        galleryInput.value = '';
-    }
-};
 
 const clearCurrentGallery = () => {
     form.old_galleries = [];
@@ -116,7 +60,6 @@ const remveCurrentGallery = (index: number) => {
         form.old_galleries.splice(index, 1);
     }
 };
-
 </script>
 
 <template>
@@ -168,23 +111,17 @@ const remveCurrentGallery = (index: number) => {
                             <InputError :message="form.errors.attributes" />
                         </div>
 
+                        <div class="gird-gap-2">
+                            <Label for="currentImage">Current Project Image</Label>
+                            <div v-if="currentProject.image" class="mt-3">
+                                <img :src="currentProject.image" class="object-cover w-full max-h-[200px]"
+                                    alt="Project image preview" />
+                            </div>
+                        </div>
+
                         <div class="grid-gap-2">
                             <Label for="image">Project Image</Label>
-                            <Input id="image" v-model="imageInput" type="file" class="block w-full mt-1"
-                                autocomplete="image" placeholder="Project Image" accept="image/*"
-                                @change="previewImage" />
-                            <div v-if="imagePreview"
-                                class="mt-3 overflow-hidden border rounded-lg shadow-sm border-neutral-200 dark:border-neutral-800">
-                                <img :src="imagePreview" class="object-cover w-full max-h-[200px]"
-                                    alt="Project image preview" />
-                                <div class="flex items-center justify-between p-2 bg-neutral-50 dark:bg-neutral-900">
-                                    <span class="text-xs text-neutral-500">Preview</span>
-                                    <Button variant="ghost" size="sm" @click="clearImage"
-                                        class="text-xs text-destructive hover:bg-destructive/10">
-                                        Remove
-                                    </Button>
-                                </div>
-                            </div>
+                            <InputImageFile v-model="form.image" :placeholder="'Project Image'" />
                             <InputError :message="form.errors.image" />
                         </div>
 
@@ -197,7 +134,7 @@ const remveCurrentGallery = (index: number) => {
                                         {{ form.old_galleries.length }} images
                                     </span>
                                     <Button variant="outline" size="sm" @click="clearCurrentGallery"
-                                        class="text-xs text-destructive hover:bg-destructive/10">
+                                        class="text-xs text-destructive hover:bg-destructive/10" type="button">
                                         Clear All
                                     </Button>
                                 </div>
@@ -210,7 +147,7 @@ const remveCurrentGallery = (index: number) => {
                                         <div
                                             class="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 bg-black/50 group-hover:opacity-100">
                                             <Button variant="ghost" size="sm" @click="remveCurrentGallery(index)"
-                                                class="text-xs text-white hover:bg-white/20">
+                                                class="text-xs text-white hover:bg-white/20" type="button">
                                                 Remove
                                             </Button>
                                         </div>
@@ -222,29 +159,7 @@ const remveCurrentGallery = (index: number) => {
 
                         <div class="grid gap-2">
                             <Label for="gallery">Project Gallery</Label>
-                            <Input id="gallery" v-model="galleryInput" type="file" class="block w-full mt-1"
-                                autocomplete="gallery" placeholder="Project Gallery" accept="image/*" multiple
-                                @change="previewGallery" />
-
-                            <div v-if="galleryPreviews.length > 0" class="mt-3">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm text-neutral-600 dark:text-neutral-400">
-                                        {{ galleryPreviews.length }} images selected
-                                    </span>
-                                    <Button variant="outline" size="sm" @click="clearGallery"
-                                        class="text-xs text-destructive hover:bg-destructive/10">
-                                        Clear All
-                                    </Button>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-                                    <div v-for="(preview, index) in galleryPreviews" :key="index"
-                                        class="relative overflow-hidden border rounded-lg shadow-sm group border-neutral-200 dark:border-neutral-800">
-                                        <img :src="preview" class="object-cover w-full h-24"
-                                            :alt="`Gallery image ${index + 1}`" />
-                                    </div>
-                                </div>
-                            </div>
+                            <InputImageMultiFile v-model="form.galleries" :placeholder="'Project Gallery'" />
 
                             <InputError :message="form.errors.galleries" />
                         </div>

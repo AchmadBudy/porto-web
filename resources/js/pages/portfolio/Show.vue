@@ -28,20 +28,6 @@ const formatAttributes = (attributes: any) => {
 };
 
 const projectAttributes = formatAttributes(props.project.attributes);
-
-// Developer information (static data)
-const developer = {
-    name: 'John Doe',
-    title: 'Full Stack Developer',
-    bio: 'Passionate full-stack developer with expertise in Laravel, Vue.js, and modern web technologies. I build elegant, efficient, and user-friendly applications.',
-    avatar: 'https://avatars.githubusercontent.com/u/12345678',
-    skills: ['Laravel', 'Vue.js', 'Tailwind CSS', 'TypeScript', 'MySQL', 'Git', 'Docker'],
-    socials: [
-        { name: 'GitHub', url: 'https://github.com', icon: 'github', imageUrl: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' },
-        { name: 'Twitter', url: 'https://twitter.com', icon: 'twitter', imageUrl: 'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg' },
-        { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'linkedin', imageUrl: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
-    ]
-};
 </script>
 
 <template>
@@ -112,7 +98,7 @@ const developer = {
                             <div v-for="(attr, index) in projectAttributes" :key="index" class="py-3">
                                 <div class="flex justify-between">
                                     <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ attr.label
-                                        }}</span>
+                                    }}</span>
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ attr.value }}</span>
                                 </div>
                                 <Separator v-if="index < projectAttributes.length - 1" class="mt-3" />
@@ -155,7 +141,7 @@ const developer = {
                         <h3 class="mb-2 text-lg font-bold transition-colors group-hover:text-primary">{{
                             relatedProject.name }}</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ relatedProject.description
-                            }}</p>
+                        }}</p>
                     </div>
                     </Link>
                 </div>

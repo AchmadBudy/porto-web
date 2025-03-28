@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
-import { Head } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -34,19 +33,6 @@ const selectCategory = (categoryId: number | null) => {
     selectedCategory.value = categoryId;
 };
 
-// // Developer information (static data)
-// const developer = {
-//     name: 'John Doe',
-//     title: 'Full Stack Developer',
-//     bio: 'Passionate full-stack developer with expertise in Laravel, Vue.js, and modern web technologies. I build elegant, efficient, and user-friendly applications.',
-//     avatar: 'https://avatars.githubusercontent.com/u/12345678',
-//     skills: ['Laravel', 'Vue.js', 'Tailwind CSS', 'TypeScript', 'MySQL', 'Git', 'Docker'],
-//     socials: [
-//         { name: 'GitHub', url: 'https://github.com', icon: 'github', imageUrl: 'https://cdn-icons-png.flaticon.com/512/25/25231.png' },
-//         { name: 'Twitter', url: 'https://twitter.com', icon: 'twitter', imageUrl: 'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg' },
-//         { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'linkedin', imageUrl: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
-//     ]
-// };
 </script>
 
 <template>

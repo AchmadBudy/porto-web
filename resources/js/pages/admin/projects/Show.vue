@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Project, ProjectForm, type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Project, type BreadcrumbItem } from '@/types';
+import { Head, Link } from '@inertiajs/vue3';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { MultiSelectAi } from '@/components/ui/multi-select';
 import { ref } from 'vue';
-import InputError from '@/components/InputError.vue';
 import { RepeaterOrigin } from '@/components/ui/repeater';
 
 type selectCategory = {
@@ -26,6 +25,8 @@ const imagePreview = ref<string | null>(project.image);
 
 const currentCategory = ref<number[]>(project.categories.map(category => category.id));
 
+// Create a local copy of project attributes to avoid mutating props
+const projectAttributes = ref(project.attributes);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -56,15 +57,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <div class="grid gap-2">
                         <Label for="name">Project Name</Label>
-                        <Input id="name" ref="nameInput" v-model="project.name" type="text" class="block w-full mt-1"
-                            autocomplete="name" placeholder="Project Name" disabled />
+                        <Input id="name" ref="nameInput" :defaultValue="project.name" type="text"
+                            class="block w-full mt-1" autocomplete="name" placeholder="Project Name" disabled />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="description">Project Description</Label>
-                        <Textarea id="description" ref="descriptionInput" v-model="project.description" type="text"
-                            class="block w-full mt-1" autocomplete="description" placeholder="Project Description"
-                            disabled />
+                        <Textarea id="description" ref="descriptionInput" :defaultValue="project.description"
+                            type="text" class="block w-full mt-1" autocomplete="description"
+                            placeholder="Project Description" disabled />
                     </div>
 
                     <div class="grid gap-2">
@@ -77,7 +78,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <div class="grid gap-2">
                         <Label>Project Attributes</Label>
 
-                        <RepeaterOrigin v-model="project.attributes" :disabled="true" />
+                        <RepeaterOrigin v-model="projectAttributes" :disabled="true" />
                     </div>
 
                     <div class="grid-gap-2">

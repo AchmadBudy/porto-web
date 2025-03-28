@@ -31,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const imagePreview = ref<string | null>(null);
-const imageInput = ref<string>('');
+const fileInputRef = ref<HTMLInputElement | null>(null);
 const previewImage = (e: Event) => {
     const target = e.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -45,9 +45,8 @@ const previewImage = (e: Event) => {
 const clearImage = () => {
     imagePreview.value = null;
     form.avatar = null;
-    if (imageInput.value) {
-        // Create a new form to reset file input
-        imageInput.value = '';
+    if (fileInputRef.value) {
+        fileInputRef.value.value = '';
     }
 };
 
@@ -120,14 +119,14 @@ const submit = () => {
 
 
                         <div class="grid-gap-2">
-                            <Label for="image">Project Image</Label>
-                            <Input id="image" v-model="imageInput" type="file" class="block w-full mt-1"
-                                autocomplete="image" placeholder="Project Image" accept="image/*"
+                            <Label for="image">Avatar Image</Label>
+                            <Input id="image" ref="fileInputRef" type="file" class="block w-full mt-1"
+                                autocomplete="image" placeholder="Avatar Image" accept="image/*"
                                 @change="previewImage" />
                             <div v-if="imagePreview"
                                 class="mt-3 overflow-hidden border rounded-lg shadow-sm border-neutral-200 dark:border-neutral-800">
                                 <img :src="imagePreview" class="object-cover w-full max-h-[200px]"
-                                    alt="Project image preview" />
+                                    alt="Avatar Image preview" />
                                 <div class="flex items-center justify-between p-2 bg-neutral-50 dark:bg-neutral-900">
                                     <span class="text-xs text-neutral-500">Preview</span>
                                     <Button variant="ghost" size="sm" @click="clearImage"

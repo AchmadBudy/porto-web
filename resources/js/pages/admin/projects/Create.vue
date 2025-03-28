@@ -10,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { MultiSelectAi } from '@/components/ui/multi-select';
 import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
-import { PlusCircleIcon, XCircleIcon } from 'lucide-vue-next';
 import { RepeaterOrigin } from '@/components/ui/repeater';
 
 type selectCategory = {
@@ -24,7 +23,8 @@ const { categories } = defineProps<{
 
 
 const imagePreview = ref<string | null>(null);
-const imageInput = ref<string>('');
+const imageInputRef = ref<HTMLInputElement | null>(null);
+const galleryInputRef = ref<HTMLInputElement | null>(null);
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -61,16 +61,14 @@ const previewImage = (e: Event) => {
 const clearImage = () => {
     imagePreview.value = null;
     form.image = null;
-    if (imageInput.value) {
-        // Create a new form to reset file input
-        imageInput.value = '';
+    if (imageInputRef.value) {
+        imageInputRef.value.value = ''; // Reset the file input
     }
 };
 
 
 // Add these with your other ref declarations
 const galleryPreviews = ref<string[]>([]);
-const galleryInput = ref<string>('');
 
 // Add these methods after your existing methods
 const previewGallery = (e: Event) => {
@@ -96,8 +94,8 @@ const previewGallery = (e: Event) => {
 const clearGallery = () => {
     galleryPreviews.value = [];
     form.galleries = [];
-    if (galleryInput.value) {
-        galleryInput.value = '';
+    if (galleryInputRef.value) {
+        galleryInputRef.value.value = ''; // Reset the file input
     }
 };
 
@@ -153,7 +151,7 @@ const clearGallery = () => {
 
                         <div class="grid-gap-2">
                             <Label for="image">Project Image</Label>
-                            <Input id="image" v-model="imageInput" type="file" class="block w-full mt-1"
+                            <Input id="image" ref="imageInputRef" type="file" class="block w-full mt-1"
                                 autocomplete="image" placeholder="Project Image" accept="image/*"
                                 @change="previewImage" />
                             <div v-if="imagePreview"
@@ -173,7 +171,7 @@ const clearGallery = () => {
 
                         <div class="grid gap-2">
                             <Label for="gallery">Project Gallery</Label>
-                            <Input id="gallery" v-model="galleryInput" type="file" class="block w-full mt-1"
+                            <Input id="gallery" ref="galleryInputRef" type="file" class="block w-full mt-1"
                                 autocomplete="gallery" placeholder="Project Gallery" accept="image/*" multiple
                                 @change="previewGallery" />
 

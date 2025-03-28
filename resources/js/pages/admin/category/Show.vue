@@ -40,13 +40,13 @@ const { category } = defineProps<{
                     <HeadingSmall title="Update Category" description="Just Update Your Category" />
                     <div class="grid gap-2">
                         <Label for="name">Category Name</Label>
-                        <Input id="name" ref="nameInput" v-model="category.name" type="text" class="block w-full mt-1"
+                        <Input id="name" :defaultValue="category.name" type="text" class="block w-full mt-1"
                             autocomplete="name" placeholder="Category Name" disabled />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="description">Category Description</Label>
-                        <Textarea id="description" ref="descriptionInput" v-model="category.description" type="text"
+                        <Textarea id="description" :defaultValue="category.description" type="text"
                             class="block w-full mt-1" autocomplete="description" placeholder="Category Description"
                             disabled />
                     </div>
