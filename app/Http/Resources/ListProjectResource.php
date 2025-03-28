@@ -17,8 +17,8 @@ class ListProjectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'image' => url('storage/'.$this->image),
+            'name' => $this->name,
+            'image' => url('storage/' . $this->image),
             'slug' => $this->slug,
             'description' => Str::limit($this->description, 200),
             'categories' => ListCategoryResource::collection($this->whenLoaded('categories')),
