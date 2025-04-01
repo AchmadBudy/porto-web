@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Link } from '@inertiajs/vue3';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 import { GeneralSettings } from '@/types';
+import { Head, Link } from '@inertiajs/vue3';
+import { onUnmounted, ref } from 'vue';
 
 const props = defineProps<{
     project: any;
@@ -13,21 +13,60 @@ const props = defineProps<{
     generalSettings: GeneralSettings;
 }>();
 
-// Format attributes for display
-const formatAttributes = (attributes: any) => {
-    if (!attributes || !Array.isArray(attributes) || attributes.length === 0) {
-        return [];
-    }
+// // Format attributes for display
+// const formatAttributes = (attributes: any) => {
+//     if (!attributes || !Array.isArray(attributes) || attributes.length === 0) {
+//         return [];
+//     }
 
-    return attributes.map(attr => {
-        return {
-            label: attr.label || '',
-            value: attr.value || ''
-        };
-    });
+//     return attributes.map(attr => {
+//         return {
+//             label: attr.label || '',
+//             value: attr.value || ''
+//         };
+//     });
+// };
+
+// const projectAttributes = formatAttributes(props.project.attributes);
+
+// Image gallery modal functionality
+const isModalOpen = ref(false);
+const currentImage = ref('');
+const currentImageAlt = ref('');
+
+const openModal = (image: string, alt: string) => {
+    currentImage.value = image;
+    currentImageAlt.value = alt;
+    isModalOpen.value = true;
+    document.body.classList.add('overflow-hidden');
 };
 
-const projectAttributes = formatAttributes(props.project.attributes);
+const closeModal = () => {
+    isModalOpen.value = false;
+    document.body.classList.remove('overflow-hidden');
+};
+
+// Close modal on escape key
+const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && isModalOpen.value) {
+        closeModal();
+    }
+};
+
+// Add event listener when component is mounted
+if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', handleKeyDown);
+}
+
+// Clean up when component is unmounted
+if (typeof window !== 'undefined') {
+    onUnmounted(() => {
+        window.removeEventListener('keydown', handleKeyDown);
+        if (isModalOpen.value) {
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+}
 </script>
 
 <template>
@@ -53,10 +92,13 @@ const projectAttributes = formatAttributes(props.project.attributes);
             </div>
             <h1 class="mb-4 text-4xl font-bold tracking-tight">{{ project.name }}</h1>
             <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <span>{{ new Date(project.created_at).toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'long', day:
-                        'numeric'
-                }) }}</span>
+                <span>{{
+                    new Date(project.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    })
+                }}</span>
             </div>
         </div>
 
@@ -66,7 +108,8 @@ const projectAttributes = formatAttributes(props.project.attributes);
             <div class="space-y-8 lg:col-span-2">
                 <!-- Main Image -->
                 <div class="overflow-hidden border border-gray-200 rounded-lg dark:border-gray-800">
-                    <img :src="project.image" :alt="project.name" class="object-cover w-full h-auto" />
+                    <img :src="project.image" :alt="project.name" @click="openModal(project.image, project.name)"
+                        class="h-auto max-h-[600px] w-full cursor-pointer object-cover transition-transform duration-300 hover:scale-[1.02]" />
                 </div>
 
                 <!-- Description -->
@@ -82,7 +125,8 @@ const projectAttributes = formatAttributes(props.project.attributes);
                         <div v-for="(gallery, index) in project.galleries" :key="index"
                             class="overflow-hidden border border-gray-200 rounded-lg dark:border-gray-800">
                             <img :src="gallery.image" :alt="`${project.name} gallery ${index + 1}`"
-                                class="object-cover w-full h-64 transition-transform duration-300 hover:scale-105" />
+                                @click="openModal(gallery.image, `${project.name} gallery ${index + 1}`)"
+                                class="object-cover w-full h-64 transition-transform duration-300 cursor-pointer hover:scale-105" />
                         </div>
                     </div>
                 </div>
@@ -94,19 +138,17 @@ const projectAttributes = formatAttributes(props.project.attributes);
                 <div class="p-6 border border-gray-200 rounded-lg dark:border-gray-800">
                     <h3 class="mb-4 text-xl font-bold">Project Details</h3>
                     <div class="space-y-4">
-                        <div v-if="projectAttributes.length > 0">
-                            <div v-for="(attr, index) in projectAttributes" :key="index" class="py-3">
+                        <div v-if="props.project.attributes.length > 0">
+                            <div v-for="(attr, index) in props.project.attributes" :key="index" class="py-3">
                                 <div class="flex justify-between">
                                     <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ attr.label
-                                    }}</span>
+                                        }}</span>
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ attr.value }}</span>
                                 </div>
-                                <Separator v-if="index < projectAttributes.length - 1" class="mt-3" />
+                                <Separator v-if="index < props.project.attributes.length - 1" class="mt-3" />
                             </div>
                         </div>
-                        <div v-else class="text-sm text-gray-500 dark:text-gray-400">
-                            No attributes available
-                        </div>
+                        <div v-else class="text-sm text-gray-500 dark:text-gray-400">No attributes available</div>
                     </div>
                 </div>
 
@@ -131,7 +173,7 @@ const projectAttributes = formatAttributes(props.project.attributes);
             <h2 class="mb-8 text-2xl font-bold">Related Projects</h2>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <div v-for="relatedProject in relatedProjects" :key="relatedProject.id"
-                    class="overflow-hidden transition-all border border-gray-200 rounded-lg group dark:border-gray-800 hover:shadow-md">
+                    class="overflow-hidden transition-all border border-gray-200 rounded-lg group hover:shadow-md dark:border-gray-800">
                     <Link :href="route('portfolio.show', relatedProject.slug)">
                     <div class="relative overflow-hidden aspect-video">
                         <img :src="relatedProject.image" :alt="relatedProject.name"
@@ -140,11 +182,29 @@ const projectAttributes = formatAttributes(props.project.attributes);
                     <div class="p-4">
                         <h3 class="mb-2 text-lg font-bold transition-colors group-hover:text-primary">{{
                             relatedProject.name }}</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ relatedProject.description
-                        }}</p>
+                        <p class="text-sm text-gray-600 line-clamp-2 dark:text-gray-400">{{ relatedProject.description
+                            }}</p>
                     </div>
                     </Link>
                 </div>
+            </div>
+        </div>
+
+        <!-- Image Modal -->
+        <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75"
+            @click="closeModal">
+            <div class="relative mx-4 max-h-[90vh] w-full max-w-4xl">
+                <button @click="closeModal"
+                    class="absolute z-10 p-2 text-white rounded-full right-4 top-4 bg-black/50 hover:bg-black/70"
+                    aria-label="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <img :src="currentImage" :alt="currentImageAlt" class="mx-auto max-h-[85vh] max-w-full object-contain"
+                    @click.stop />
             </div>
         </div>
     </PortfolioLayout>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ListCategoryResource;
 use App\Http\Resources\ShowCategoryResource;
 use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -30,7 +31,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('admin/category/Create');
     }
@@ -38,7 +39,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required|string',
@@ -55,10 +56,8 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Category $category): Response
     {
-        $categor = new ShowCategoryResource($category);
-
         return Inertia::render('admin/category/Show', [
             'category' => new ShowCategoryResource($category),
         ]);
@@ -67,7 +66,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Category $category): Response
     {
         return Inertia::render('admin/category/Edit', [
             'currentCategory' => new ShowCategoryResource($category),
@@ -77,7 +76,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Category $category): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required|string',
@@ -94,7 +93,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): RedirectResponse
     {
         // Delete the category
         $category->delete();
