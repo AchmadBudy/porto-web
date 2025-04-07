@@ -6,12 +6,12 @@ import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { MultiSelectAi } from '@/components/ui/multi-select';
 import InputError from '@/components/InputError.vue';
 import { RepeaterOrigin } from '@/components/ui/repeater';
 import InputImageFile from '@/components/custom/InputImageFile.vue';
 import InputImageMultiFile from '@/components/custom/InputImageMultiFile.vue';
+import InputQuill from '@/components/custom/InputQuill.vue';
 
 type selectCategory = {
     value: number;
@@ -90,9 +90,8 @@ const remveCurrentGallery = (index: number) => {
 
                         <div class="grid gap-2">
                             <Label for="description">Project Description</Label>
-                            <Textarea id="description" ref="descriptionInput" v-model="form.description" type="text"
-                                class="block w-full mt-1" autocomplete="description"
-                                placeholder="Project Description" />
+                            <InputQuill id="description" ref="descriptionInput" v-model="form.description"
+                                autocomplete="description" placeholder="Project Description" />
                             <InputError :message="form.errors.description" />
                         </div>
 

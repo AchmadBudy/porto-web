@@ -6,28 +6,13 @@ import PortfolioLayout from '@/layouts/PortfolioLayout.vue';
 import { GeneralSettings } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 import { onUnmounted, ref } from 'vue';
+import 'quill/dist/quill.snow.css';
 
 const props = defineProps<{
     project: any;
     relatedProjects: any;
     generalSettings: GeneralSettings;
 }>();
-
-// // Format attributes for display
-// const formatAttributes = (attributes: any) => {
-//     if (!attributes || !Array.isArray(attributes) || attributes.length === 0) {
-//         return [];
-//     }
-
-//     return attributes.map(attr => {
-//         return {
-//             label: attr.label || '',
-//             value: attr.value || ''
-//         };
-//     });
-// };
-
-// const projectAttributes = formatAttributes(props.project.attributes);
 
 // Image gallery modal functionality
 const isModalOpen = ref(false);
@@ -115,7 +100,7 @@ if (typeof window !== 'undefined') {
                 <!-- Description -->
                 <div class="prose prose-gray dark:prose-invert max-w-none">
                     <h2 class="mb-4 text-2xl font-bold">Project Overview</h2>
-                    <p class="whitespace-pre-line">{{ project.description }}</p>
+                    <div class="whitespace-pre-line ql-editor" v-html="project.description"></div>
                 </div>
 
                 <!-- Gallery -->

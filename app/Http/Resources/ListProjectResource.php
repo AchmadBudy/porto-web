@@ -20,7 +20,7 @@ class ListProjectResource extends JsonResource
             'name' => $this->name,
             'image' => url('storage/' . $this->image),
             'slug' => $this->slug,
-            'description' => Str::limit($this->description, 200),
+            'description' => Str::limit(strip_tags($this->description), 200),
             'categories' => ListCategoryResource::collection($this->whenLoaded('categories')),
         ];
     }

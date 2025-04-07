@@ -6,10 +6,10 @@ import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { MultiSelectAi } from '@/components/ui/multi-select';
 import { ref } from 'vue';
 import { RepeaterOrigin } from '@/components/ui/repeater';
+import 'quill/dist/quill.snow.css';
 
 type selectCategory = {
     value: number;
@@ -63,9 +63,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                     <div class="grid gap-2">
                         <Label for="description">Project Description</Label>
-                        <Textarea id="description" ref="descriptionInput" :defaultValue="project.description"
-                            type="text" class="block w-full mt-1" autocomplete="description"
-                            placeholder="Project Description" disabled />
+                        <div v-html="project.description" class="ql-editor">
+                        </div>
                     </div>
 
                     <div class="grid gap-2">
