@@ -140,7 +140,7 @@ const remveCurrentGallery = (index: number) => {
 
                                 <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                                     <div v-for="(preview, index) in form.old_galleries" :key="index"
-                                        class="relative overflow-hidden border rounded-lg shadow-sm group border-neutral-200 dark:border-neutral-800">
+                                        class="relative overflow-hidden border rounded-lg shadow-xs group border-neutral-200 dark:border-neutral-800">
                                         <img :src="preview.image" class="object-cover w-full h-24"
                                             :alt="`Gallery image ${index + 1}`" />
                                         <div

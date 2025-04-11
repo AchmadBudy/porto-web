@@ -63,7 +63,7 @@ const removeImage = (index: number) => {
 
 <template>
     <input ref="refModelValue" :class="cn(
-        'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+        'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
         props.class,
     )
         " :placeholder="props.placeholder" accept="image/*" @change="previewImages" type="file" multiple />
@@ -79,7 +79,7 @@ const removeImage = (index: number) => {
 
         <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
             <div v-for="(item, index) in imagePreviews" :key="index"
-                class="overflow-hidden border rounded-lg shadow-sm border-neutral-200 dark:border-neutral-800">
+                class="overflow-hidden border rounded-lg shadow-xs border-neutral-200 dark:border-neutral-800">
                 <img :src="item.preview" class="object-cover w-full h-32" alt="Image preview" />
                 <div class="flex items-center justify-between p-2 bg-neutral-50 dark:bg-neutral-900">
                     <span class="text-xs truncate text-neutral-500 max-w-24">{{ item.file.name }}</span>

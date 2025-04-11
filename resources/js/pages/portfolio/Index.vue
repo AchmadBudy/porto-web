@@ -75,7 +75,7 @@ const selectCategory = (categoryId: number | null) => {
                 </div>
                 <div class="relative">
                     <div
-                        class="absolute rounded-lg opacity-75 -inset-1 bg-gradient-to-r from-primary/20 to-primary/40 blur">
+                        class="absolute rounded-lg opacity-75 -inset-1 bg-linear-to-r from-primary/20 to-primary/40 blur-sm">
                     </div>
                     <div
                         class="relative p-4 overflow-hidden bg-white border border-gray-200 rounded-lg dark:border-gray-800 dark:bg-gray-900">

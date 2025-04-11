@@ -124,7 +124,7 @@ const submit = () => {
                                 autocomplete="image" placeholder="Avatar Image" accept="image/*"
                                 @change="previewImage" />
                             <div v-if="imagePreview"
-                                class="mt-3 overflow-hidden border rounded-lg shadow-sm border-neutral-200 dark:border-neutral-800">
+                                class="mt-3 overflow-hidden border rounded-lg shadow-xs border-neutral-200 dark:border-neutral-800">
                                 <img :src="imagePreview" class="object-cover w-full max-h-[200px]"
                                     alt="Avatar Image preview" />
                                 <div class="flex items-center justify-between p-2 bg-neutral-50 dark:bg-neutral-900">

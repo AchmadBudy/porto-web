@@ -7,7 +7,7 @@
             <!-- Selected Items -->
             <template v-if="selectedItems.length > 0">
                 <div v-for="(item, index) in selectedItems" :key="index"
-                    class="flex items-center px-2 py-1 text-sm rounded-full bg-primary-100 dark:bg-primary-900 dark:text-primary-100">
+                    class="flex items-center px-2 py-1 text-sm rounded-full bg-primary/10 dark:bg-primary/20 dark:text-primary-100">
                     {{ getItemLabel(item) }}
                     <button type="button" @click.stop="removeItem(item)"
                         class="ml-1 text-primary-600 hover:text-primary-800 dark:text-primary-300 dark:hover:text-primary-100">
@@ -23,7 +23,7 @@
             class="absolute z-50 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-lg max-h-60 dark:bg-gray-700 dark:border-gray-600">
             <!-- Search Input -->
             <input v-model="searchQuery" type="text" placeholder="Search..."
-                class="w-full p-2 border-b border-gray-200 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-primary-400"
+                class="w-full p-2 border-b border-gray-200 focus-visible:outline-none focus-visible:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus-visible:border-primary-400"
                 @keydown.esc="closeDropdown" @keydown.down.prevent="highlightNext" @keydown.up.prevent="highlightPrev"
                 @keydown.enter.prevent="selectHighlighted">
 
@@ -37,12 +37,12 @@
             <!-- Options -->
             <ul class="py-1">
                 <li v-for="(option, index) in filteredOptions" :key="index"
-                    class="px-3 py-2 text-sm cursor-pointer hover:bg-primary-50 dark:hover:bg-gray-600" :class="{
-                        'bg-primary-50 dark:bg-gray-600': highlightedIndex === index,
+                    class="px-3 py-2 text-sm cursor-pointer hover:bg-primary/5 dark:hover:bg-gray-600" :class="{
+                        'bg-primary/5 dark:bg-gray-600': highlightedIndex === index,
                         'font-semibold dark:text-gray-100': isSelected(option.value)
                     }" @click="toggleSelection(option.value)" @mouseover="highlightedIndex = index">
                     <input type="checkbox" :checked="isSelected(option.value)"
-                        class="mr-2 rounded text-primary-600 focus:ring-primary-500 dark:text-primary-400 dark:accent-primary-500"
+                        class="mr-2 rounded text-primary-600 focus-visible:ring-primary-500 dark:text-primary-400 dark:accent-primary-500"
                         :class="{ 'opacity-50 dark:opacity-30': option.disabled }" :disabled="option.disabled">
                     <span class="dark:text-gray-200">{{ option.label }}</span>
                 </li>
@@ -210,13 +210,5 @@ const selectHighlighted = () => {
 <style scoped>
 ::-webkit-scrollbar {
     width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-600;
-}
-
-::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 rounded-full hover:bg-gray-400 dark:bg-gray-500 dark:hover:bg-gray-400;
 }
 </style>

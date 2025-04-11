@@ -154,7 +154,7 @@ const clearGallery = () => {
                                 autocomplete="image" placeholder="Project Image" accept="image/*"
                                 @change="previewImage" />
                             <div v-if="imagePreview"
-                                class="mt-3 overflow-hidden border rounded-lg shadow-sm border-neutral-200 dark:border-neutral-800">
+                                class="mt-3 overflow-hidden border rounded-lg shadow-xs border-neutral-200 dark:border-neutral-800">
                                 <img :src="imagePreview" class="object-cover w-full max-h-[200px]"
                                     alt="Project image preview" />
                                 <div class="flex items-center justify-between p-2 bg-neutral-50 dark:bg-neutral-900">
@@ -187,7 +187,7 @@ const clearGallery = () => {
 
                                 <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                                     <div v-for="(preview, index) in galleryPreviews" :key="index"
-                                        class="relative overflow-hidden border rounded-lg shadow-sm group border-neutral-200 dark:border-neutral-800">
+                                        class="relative overflow-hidden border rounded-lg shadow-xs group border-neutral-200 dark:border-neutral-800">
                                         <img :src="preview" class="object-cover w-full h-24"
                                             :alt="`Gallery image ${index + 1}`" />
                                     </div>
