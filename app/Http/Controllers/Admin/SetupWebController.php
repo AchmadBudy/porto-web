@@ -5,19 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GeneralSettingsResource;
 use App\Settings\GeneralSettings;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Response;
 
 class SetupWebController extends Controller
 {
-    public function index(GeneralSettings $settings)
+    public function index(GeneralSettings $settings): Response
     {
         return inertia('admin/setup-web/Index', [
             'generalSettings' => GeneralSettingsResource::make($settings),
         ]);
     }
 
-    public function update(Request $request, GeneralSettings $settings)
+    public function update(Request $request, GeneralSettings $settings): RedirectResponse
     {
         // try {
         $validate = $request->validate([

@@ -10,13 +10,14 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Settings\GeneralSettings;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PortfolioController extends Controller
 {
     /**
      * Display the portfolio home page with projects list
      */
-    public function index(GeneralSettings $settings)
+    public function index(GeneralSettings $settings): Response
     {
         $projects = Project::query()
             ->with('categories')
@@ -37,7 +38,7 @@ class PortfolioController extends Controller
     /**
      * Display all projects with pagination
      */
-    public function all(GeneralSettings $settings)
+    public function all(GeneralSettings $settings): Response
     {
         $projects = Project::query()
             ->with('categories')
@@ -58,7 +59,7 @@ class PortfolioController extends Controller
     /**
      * Display the specified project details
      */
-    public function show(Project $project, GeneralSettings $settings)
+    public function show(Project $project, GeneralSettings $settings): Response
     {
         // Get related projects (projects with similar categories)
         $categoryIds = $project->categories->pluck('id');
