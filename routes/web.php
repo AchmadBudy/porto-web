@@ -19,12 +19,12 @@ Route::group([
     Route::group([
         'as' => 'admin.',
     ], function () {
-        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
 
-        Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class);
+        Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class);
 
-        Route::get('settings/web-setup', [\App\Http\Controllers\Admin\SetupWebController::class, 'index'])->name('settings.web-setup');
-        Route::put('settings/web-setup/update', [\App\Http\Controllers\Admin\SetupWebController::class, 'update'])->name('settings.web-setup.update');
+        Route::get('settings/web-setup', [App\Http\Controllers\Admin\SetupWebController::class, 'index'])->name('settings.web-setup');
+        Route::put('settings/web-setup/update', [App\Http\Controllers\Admin\SetupWebController::class, 'update'])->name('settings.web-setup.update');
     });
 });
 
