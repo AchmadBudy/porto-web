@@ -11,14 +11,13 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Inertia\Response;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index()
     {
         $projects = Project::query()
             ->with('categories')
@@ -123,7 +122,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $validate = $request->validate([
-            'name' => ['required', 'string', 'unique:projects,name,'.$project->id],
+            'name' => ['required', 'string', 'unique:projects,name,' . $project->id],
             'description' => ['required', 'string'],
             'image' => ['nullable', 'image'],
             'attributes' => ['nullable', 'array'],
