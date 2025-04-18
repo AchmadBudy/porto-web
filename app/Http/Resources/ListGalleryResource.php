@@ -5,6 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property-read int $id
+ * @property-read int $project_id
+ * @property-read string $image
+ */
 class ListGalleryResource extends JsonResource
 {
     /**
@@ -17,7 +22,7 @@ class ListGalleryResource extends JsonResource
         return [
             'id' => $this->id,
             'project_id' => $this->project_id,
-            'image' => url('storage/'.$this->image),
+            'image' => url('storage/' . $this->image),
         ];
     }
 }

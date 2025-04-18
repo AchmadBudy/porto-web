@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Settings;
 
 use Spatie\LaravelSettings\Settings;
@@ -14,8 +16,10 @@ class GeneralSettings extends Settings
 
     public ?string $avatar;
 
+    /** @var array<string> $skills*/
     public array $skills;
 
+    /** @var array<int,mixed> $socials*/
     public array $socials;
 
     public static function group(): string
