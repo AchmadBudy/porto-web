@@ -5,6 +5,10 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property-read int $id
+ * @property-read string $name
+ */
 class SelectCategoryResource extends JsonResource
 {
     /**
